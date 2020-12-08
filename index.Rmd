@@ -6,17 +6,17 @@ subtitle: "2017 - 2020"
 
 # Introduction
 
-The purpose of this project is to look at single family housing in the City of Buffalo. Using the assessed values of single family properties (City Assessment Rolls), this project aims to examine the spatial distribution and percent change of single family housing prices across the city of Buffalo. To extend this study, median household prices within neighborhoods will also be calculated to potentially illuminate trends in the changes in price of single family homes across neighborhoods. 
+Within the context of recent economic growth within the City of Buffalo (before Covid-19), 
+this project will examine changes in Single Family Housing Prices from 2017 - 2020. Buffalo has experienced rising real estate values in response to economic development projects, university expansions and workforce development programs. This project will compare changes in housing prices
+across neighborhoods and investigate possible factors that influence housing prices such as number of bathrooms, bedrooms and total living area. 
 
 # Materials and methods
 
-[~ 200 words]
 
-Sources: Clear narrative description of the data sources and methods. Includes data from at least two sources that were integrated / merged in R.
+Sources: 
+Open Data Buffalo, Tax Assessment Data 2017 - 2020
+Open Data Buffalo, Neighborhood Boundary Shapefile
 
-Code: The code associated with the project is well organized and easy to follow. Demonstrates mastery of R graphics and functions.
-
-Data: The underlying data are publicly accessible via the web and downloaded/accessed within the Rmd script. If you want to use your own data, you must make it available on a website (e.g. Figshare) so that others are able to re-run your code.
 
 # Packages
 
@@ -61,6 +61,7 @@ Buffalo_Neighborhoods <- st_read(dsn = Neighborhood_URL)
 Buffalo_sp <- as_Spatial(Buffalo_Neighborhoods)
 
 ```
+
 #Snapshot of Assessment Data from 2017 - 2018
 ```{r, message=F, warning=F}
 Parcel17 %>% 
@@ -150,10 +151,10 @@ Neighborhood_map <- leaflet() %>%
   addProviderTiles("CartoDB") %>%
   addProviderTiles("Stamen.TonerLines",
                    options = providerTileOptions(opacity = 0.35)) %>%
-  addPolygons(data = Buffalo_sp, fillColor = "transparent") %>%
   addCircles(data = Buffalo_20, lng = Buffalo_20$LONGITUDE, lat = Buffalo_20$LATITUDE, 
              color = ~pallete(log(Buffalo_20$TOTAL.VALUE)),
-             radius = .05, opacity = 0.5) 
+             radius = .05, opacity = 0.5) %>%
+  addPolygons(data = Buffalo_sp, fillColor = "transparent", color = "#444444", weight = 2)
 Neighborhood_map
 ```
 
@@ -173,9 +174,6 @@ summary(MLR)
 
 # Conclusions
 
-[~200 words]
-
-Clear summary adequately describing the results and putting them in context. Discussion of further questions and ways to continue investigation.
 
 # References
 

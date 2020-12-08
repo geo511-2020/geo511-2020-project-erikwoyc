@@ -141,11 +141,10 @@ Neighborhood_map <- leaflet() %>%
   addProviderTiles("CartoDB") %>%
   addProviderTiles("Stamen.TonerLines",
                    options = providerTileOptions(opacity = 0.35)) %>%
-  addPolygons(data = Buffalo_sp, fillColor = "transparent") %>%
   addCircles(data = Buffalo_20, lng = Buffalo_20$LONGITUDE, lat = Buffalo_20$LATITUDE, 
              color = ~pallete(log(Buffalo_20$TOTAL.VALUE)),
              radius = .05, opacity = 0.5) %>%
-  addLegend(pal = pallete, values = ~log(TOTAL.VALUE), labFormat = labelFormat(scales::dollar_format(prefix = "$")))
+  addPolygons(data = Buffalo_sp, fillColor = "transparent", color = "#444444", weight = 2)
 Neighborhood_map
 
 
