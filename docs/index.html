@@ -12,7 +12,7 @@
 <meta name="author" content="Erik Woyciesjes" />
 
 
-<title>A Look at Single Family Housing Prices Across Buffalo</title>
+<title>Price Analysis for Single Family Housing in Buffalo</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -366,7 +366,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">A Look at Single Family Housing Prices Across Buffalo</h1>
+<h1 class="title toc-ignore">Price Analysis for Single Family Housing in Buffalo</h1>
 <h3 class="subtitle">2017 - 2020</h3>
 <h4 class="author">Erik Woyciesjes</h4>
 
@@ -383,23 +383,9 @@ div.tocify {
 <p>Sources: Clear narrative description of the data sources and methods. Includes data from at least two sources that were integrated / merged in R.</p>
 <p>Code: The code associated with the project is well organized and easy to follow. Demonstrates mastery of R graphics and functions.</p>
 <p>Data: The underlying data are publicly accessible via the web and downloaded/accessed within the Rmd script. If you want to use your own data, you must make it available on a website (e.g. Figshare) so that others are able to re-run your code.</p>
-<p>You can do bullets like this:</p>
-<ul>
-<li>The first most important thing</li>
-<li>The second most important thing</li>
-<li>The third most important thing</li>
-</ul>
-<p>You can do numbers like this:</p>
-<ol style="list-style-type: decimal">
-<li>The first most important thing</li>
-<li>The second most important thing</li>
-<li>The third most important thing</li>
-</ol>
-<p>See <a href="http://rmarkdown.rstudio.com/">http://rmarkdown.rstudio.com/</a> for all the amazing things you can do.</p>
-<p>Here’s my first code chunk.</p>
-<pre class="r"><code>1+2</code></pre>
-<pre><code>## [1] 3</code></pre>
-<p>Load any required packages in a code chunk (you may need to install some packages):</p>
+</div>
+<div id="packages" class="section level1">
+<h1>Packages</h1>
 <pre class="r"><code>library(tidyverse)
 library(ggplot2)
 library(ggmap)
@@ -418,8 +404,8 @@ library(sf)
 library(rgdal)
 library(RColorBrewer)
 knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling</code></pre>
-<div id="download-and-clean-all-required-data" class="section level2">
-<h2>Download and clean all required data</h2>
+<div id="data-download-cleaning" class="section level2">
+<h2>Data Download &amp; Cleaning</h2>
 <pre class="r"><code># 2017 - 2019 Buffalo Assessment Roll
 Parcel17 &lt;- read.csv(file = &quot;https://raw.githubusercontent.com/geo511-2020/geo511-2020-project-erikwoyc/master/2017-2018_Assessment_Roll.csv&quot;)
 SingleFam_propclass &lt;- c(&quot;210&quot;, &quot;215&quot;, &quot;240&quot;, &quot;241&quot;, &quot;250&quot;, &quot;270&quot;)
@@ -432,10 +418,16 @@ Buffalo_20 &lt;- filter(Parcel20, PROPERTY.CLASS %in% SingleFam_propclass)
 
 # Neighborhood Shapefile
 Neighborhood_URL &lt;- &quot;https://data.buffalony.gov/api/geospatial/q9bk-zu3p?method=export&amp;format=GeoJSON&quot;
-Buffalo_Neighborhoods &lt;- st_read(dsn = Neighborhood_URL)
-Buffalo_sp &lt;- as_Spatial(Buffalo_Neighborhoods)</code></pre>
-<pre class="r"><code>#Snapshot of Assessment Data from 2017 - 2018
-Parcel17 %&gt;% 
+Buffalo_Neighborhoods &lt;- st_read(dsn = Neighborhood_URL)</code></pre>
+<pre><code>## Reading layer `OGRGeoJSON&#39; from data source `https://data.buffalony.gov/api/geospatial/q9bk-zu3p?method=export&amp;format=GeoJSON&#39; using driver `GeoJSON&#39;
+## Simple feature collection with 35 features and 11 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -78.91246 ymin: 42.82603 xmax: -78.79504 ymax: 42.96641
+## geographic CRS: WGS 84</code></pre>
+<pre class="r"><code>Buffalo_sp &lt;- as_Spatial(Buffalo_Neighborhoods)</code></pre>
+<p>#Snapshot of Assessment Data from 2017 - 2018</p>
+<pre class="r"><code>Parcel17 %&gt;% 
   slice(1:10) %&gt;% 
   kable(digits=2,align=&quot;c&quot;) %&gt;% 
   kable_styling(bootstrap_options = 
@@ -1938,14 +1930,10 @@ Elmwood Bidwell
 </tr>
 </tbody>
 </table>
-<p>Add any additional processing steps here.</p>
 </div>
 </div>
-<div id="results" class="section level1">
-<h1>Results</h1>
-<p>[~200 words]</p>
-<p>Tables and figures (maps and other graphics) are carefully planned to convey the results of your analysis. Intense exploration and evidence of many trials and failures. The author looked at the data in many different ways before coming to the final presentation of the data.</p>
-<p>Show tables, plots, etc. and describe them.</p>
+<div id="data-exploration" class="section level1">
+<h1>Data Exploration</h1>
 <pre class="r"><code># 2017 - 2018 Single Family Housing Price Histogram
 Plot_2017 &lt;- ggplot(data = Buffalo_17, mapping = aes(x = TOTAL.VALUE)) + 
   geom_histogram() + xlab(&quot;Total Property Value($)&quot;) + ylab(&quot;Count&quot;) +
@@ -1954,7 +1942,7 @@ Plot_2017 &lt;- ggplot(data = Buffalo_17, mapping = aes(x = TOTAL.VALUE)) +
        subtitle=&quot;Single Family Property Prices (2017 - 2018)&quot;, 
        caption=&quot;Source: Buffalo Open Data&quot;) + scale_x_continuous() + scale_y_continuous()
 plot(Plot_2017)</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre class="r"><code># 2019 - 2020 Single Family Housing Price Histogram
 Plot_2019 &lt;- ggplot(data = Buffalo_20, mapping = aes(x = TOTAL.VALUE)) + 
   geom_histogram() + xlab(&quot;Total Property Value($)&quot;) + ylab(&quot;Count&quot;) +
@@ -1963,7 +1951,10 @@ Plot_2019 &lt;- ggplot(data = Buffalo_20, mapping = aes(x = TOTAL.VALUE)) +
        subtitle=&quot;Single Family Property Prices (2019 - 2020)&quot;, 
        caption=&quot;Source: Buffalo Open Data&quot;) + scale_x_continuous() + scale_y_continuous()
 plot(Plot_2019)</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="buffalo-base-map" class="section level1">
+<h1>Buffalo Base Map</h1>
 <pre class="r"><code>#Buffalo Bounding Box
 Buffalo_bbox &lt;- Buffalo_sp@bbox
 
@@ -1977,9 +1968,11 @@ basemap &lt;- get_stamenmap(
 BFMap &lt;- ggmap(basemap) + 
   labs(title=&quot;Buffalo Basemap&quot;)
 BFMap</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<pre class="r"><code># 2017 - 2018 Assessment Roll Plot
-SingleFam17 &lt;- ggmap(basemap) +
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="assessment-roll-plot" class="section level1">
+<h1>2017 - 2018 Assessment Roll Plot</h1>
+<pre class="r"><code>SingleFam17 &lt;- ggmap(basemap) +
   geom_point(data = Buffalo_17, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 
              size = .025, alpha = 0.7) +
   scale_color_gradient(&quot;Single Family Home Price&quot;, low = &quot;light green&quot;, high = &quot;dark green&quot;, trans=&quot;log&quot;,
@@ -1988,10 +1981,11 @@ SingleFam17 &lt;- ggmap(basemap) +
        subtitle=&quot;Property Prices (2017 - 2018)&quot;,
        caption=&quot;Open Data Buffalo&quot;)
 SingleFam17</code></pre>
-<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<pre class="r"><code># 2019 - 2020 Assessment Roll Plot
-SingleFam20 &lt;- ggmap(basemap) + 
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="assessment-roll-plot-1" class="section level1">
+<h1>2019 - 2020 Assessment Roll Plot</h1>
+<pre class="r"><code>SingleFam20 &lt;- ggmap(basemap) + 
   geom_point(data = Buffalo_20, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 
              size = .025, alpha = 0.7) +
   scale_color_gradient(&quot;Single Family Home Price&quot;, low = &quot;light green&quot;, high = &quot;dark green&quot;, trans=&quot;log&quot;,
@@ -2000,8 +1994,78 @@ SingleFam20 &lt;- ggmap(basemap) +
        subtitle=&quot;Property Prices (2019 - 2020)&quot;,
        caption=&quot;Open Data Buffalo&quot;)
 SingleFam20</code></pre>
-<pre><code>## Warning: Removed 115 rows containing missing values (geom_point).</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="672" /> # Conclusions</p>
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>## Transform Data for Regression
+Buffalo_20$log &lt;- log10(Buffalo_20$TOTAL.VALUE)
+View(Buffalo_20)
+
+## Multiple Linear Regression
+MLR &lt;- lm(log ~ X..OF.BEDS + YEAR.BUILT +
+          TOTAL.LIVING.AREA + X..OF.BATHS + NEIGHBORHOOD,
+          data = Buffalo_20)
+summary(MLR)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = log ~ X..OF.BEDS + YEAR.BUILT + TOTAL.LIVING.AREA + 
+##     X..OF.BATHS + NEIGHBORHOOD, data = Buffalo_20)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.40466 -0.06192  0.00811  0.07184  0.93749 
+## 
+## Coefficients:
+##                                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                    -2.467e+00  6.719e-02 -36.719  &lt; 2e-16 ***
+## X..OF.BEDS                     -1.362e-02  1.086e-03 -12.545  &lt; 2e-16 ***
+## YEAR.BUILT                      3.557e-03  3.337e-05 106.614  &lt; 2e-16 ***
+## TOTAL.LIVING.AREA               2.096e-04  1.979e-06 105.918  &lt; 2e-16 ***
+## X..OF.BATHS                     2.532e-02  2.089e-03  12.119  &lt; 2e-16 ***
+## NEIGHBORHOODAllentown           3.043e-01  1.656e-02  18.371  &lt; 2e-16 ***
+## NEIGHBORHOODBlack Rock         -1.112e-01  1.550e-02  -7.174 7.42e-13 ***
+## NEIGHBORHOODBroadway Fillmore  -3.421e-01  1.445e-02 -23.675  &lt; 2e-16 ***
+## NEIGHBORHOODCentral             3.718e-01  1.630e-02  22.817  &lt; 2e-16 ***
+## NEIGHBORHOODCentral Park        3.259e-01  1.453e-02  22.428  &lt; 2e-16 ***
+## NEIGHBORHOODDelavan Grider     -1.858e-01  1.470e-02 -12.636  &lt; 2e-16 ***
+## NEIGHBORHOODEllicott           -1.718e-01  1.624e-02 -10.581  &lt; 2e-16 ***
+## NEIGHBORHOODElmwood Bidwell     3.394e-01  1.452e-02  23.365  &lt; 2e-16 ***
+## NEIGHBORHOODElmwood Bryant      3.297e-01  1.510e-02  21.826  &lt; 2e-16 ***
+## NEIGHBORHOODFillmore-Leroy     -2.194e-01  1.489e-02 -14.731  &lt; 2e-16 ***
+## NEIGHBORHOODFirst Ward         -2.418e-01  1.589e-02 -15.213  &lt; 2e-16 ***
+## NEIGHBORHOODFruit Belt         -3.674e-01  1.606e-02 -22.872  &lt; 2e-16 ***
+## NEIGHBORHOODGenesee-Moselle    -3.213e-01  1.464e-02 -21.944  &lt; 2e-16 ***
+## NEIGHBORHOODGrant-Amherst      -9.695e-02  1.702e-02  -5.697 1.23e-08 ***
+## NEIGHBORHOODHamlin Park        -1.450e-03  1.503e-02  -0.096  0.92313    
+## NEIGHBORHOODHopkins-Tifft       3.377e-02  1.452e-02   2.326  0.02001 *  
+## NEIGHBORHOODKaisertown          1.090e-01  1.459e-02   7.474 7.93e-14 ***
+## NEIGHBORHOODKenfield           -4.033e-02  1.463e-02  -2.757  0.00584 ** 
+## NEIGHBORHOODKensington-Bailey  -9.390e-03  1.420e-02  -0.661  0.50855    
+## NEIGHBORHOODLovejoy             2.344e-02  1.452e-02   1.614  0.10656    
+## NEIGHBORHOODLower West Side     3.474e-02  1.707e-02   2.036  0.04179 *  
+## NEIGHBORHOODMasten Park        -3.084e-01  1.482e-02 -20.809  &lt; 2e-16 ***
+## NEIGHBORHOODMLK Park           -3.430e-01  1.552e-02 -22.100  &lt; 2e-16 ***
+## NEIGHBORHOODNorth Park          2.981e-01  1.425e-02  20.923  &lt; 2e-16 ***
+## NEIGHBORHOODParkside            3.958e-01  1.456e-02  27.190  &lt; 2e-16 ***
+## NEIGHBORHOODPratt-Willert      -8.602e-02  1.544e-02  -5.573 2.53e-08 ***
+## NEIGHBORHOODRiverside           3.727e-02  1.444e-02   2.582  0.00983 ** 
+## NEIGHBORHOODSchiller Park      -7.868e-02  1.441e-02  -5.461 4.77e-08 ***
+## NEIGHBORHOODSeneca Babcock     -1.272e-01  1.586e-02  -8.021 1.08e-15 ***
+## NEIGHBORHOODSeneca-Cazenovia    9.080e-02  1.459e-02   6.224 4.90e-10 ***
+## NEIGHBORHOODSouth Park          1.996e-01  1.415e-02  14.108  &lt; 2e-16 ***
+## NEIGHBORHOODUniversity Heights  1.109e-01  1.435e-02   7.724 1.16e-14 ***
+## NEIGHBORHOODUNKNOWN             4.344e-01  3.971e-02  10.937  &lt; 2e-16 ***
+## NEIGHBORHOODUpper West Side    -8.303e-02  1.494e-02  -5.558 2.75e-08 ***
+## NEIGHBORHOODWest Hertel         3.020e-02  1.558e-02   1.938  0.05258 .  
+## NEIGHBORHOODWest Side          -8.195e-04  1.531e-02  -0.054  0.95731    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1483 on 37809 degrees of freedom
+##   (14 observations deleted due to missingness)
+## Multiple R-squared:  0.8055, Adjusted R-squared:  0.8053 
+## F-statistic:  3914 on 40 and 37809 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="conclusions" class="section level1">
+<h1>Conclusions</h1>
 <p>[~200 words]</p>
 <p>Clear summary adequately describing the results and putting them in context. Discussion of further questions and ways to continue investigation.</p>
 </div>

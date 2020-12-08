@@ -42,7 +42,7 @@ knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ```
 
 ## Data Download & Cleaning
-```{r, message=F, warning=F}
+```{r, message=F, warning=F, results='hide'}
 # 2017 - 2019 Buffalo Assessment Roll
 Parcel17 <- read.csv(file = "https://raw.githubusercontent.com/geo511-2020/geo511-2020-project-erikwoyc/master/2017-2018_Assessment_Roll.csv")
 SingleFam_propclass <- c("210", "215", "240", "241", "250", "270")
