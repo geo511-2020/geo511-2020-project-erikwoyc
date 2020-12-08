@@ -1,5 +1,5 @@
 ---
-title: "A Look at Single Family Housing Prices Across Buffalo" 
+title: "Price Analysis for Single Family Housing in Buffalo" 
 author: Erik Woyciesjes
 subtitle: "2017 - 2020"
 ---
