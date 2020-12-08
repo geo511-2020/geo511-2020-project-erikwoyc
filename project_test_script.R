@@ -49,10 +49,6 @@ Plot_2019 <- ggplot(data = Buffalo_20, mapping = aes(x = TOTAL.VALUE)) +
        caption="Source: Buffalo Open Data") + scale_x_continuous() + scale_y_continuous()
 plot(Plot_2019)
 
-#Data is transformed using Natural Log for Map Visualization
-Buffalo_17$logprice <- log(Buffalo_17$TOTAL.VALUE)
-Buffalo_20$logprice <- log(Buffalo_20$TOTAL.VALUE)
-
 #Buffalo Bounding Box
 Buffalo_bbox <- Buffalo_sp@bbox
 
@@ -69,11 +65,11 @@ BFMap
 
 
 # 2017 - 2018 Assessment Roll Plot
-SingleFam17 <- ggmap(basemap) + 
-  geom_point(data = Buffalo_17, aes(x = LONGITUDE, y = LATITUDE, color = logprice), 
+SingleFam17 <- ggmap(basemap) + geom_polygon(data = Buffalo_sp) +
+  geom_point(data = Buffalo_17, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 
              size = .025, alpha = 0.7) +
-  scale_color_gradient("Single Family Home Price", 
-                        low = "light green", high = "dark green") +
+  scale_color_gradient("Single Family Home Price", low = "light green", high = "dark green", trans="log",
+                       labels = scales::dollar_format(prefix = "$")) +
   labs(title="Distribution of Buffalo Home Prices",
        subtitle="Property Prices (2017 - 2018)",
        caption="Open Data Buffalo")
@@ -81,10 +77,10 @@ SingleFam17
 
 # 2019 - 2020 Assessment Roll Plot
 SingleFam20 <- ggmap(basemap) + 
-  geom_point(data = Buffalo_20, aes(x = LONGITUDE, y = LATITUDE, color = logprice), 
+  geom_point(data = Buffalo_20, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 
              size = .025, alpha = 0.7) +
-  scale_color_gradient("Single Family Home Price", 
-                       low = "light green", high = "dark green") +
+  scale_color_gradient("Single Family Home Price", low = "light green", high = "dark green", trans="log",
+                       labels = scales::dollar_format(prefix = "$")) +
   labs(title="Distribution of Buffalo Home Prices",
        subtitle="Property Prices (2019 - 2020)",
        caption="Open Data Buffalo")
