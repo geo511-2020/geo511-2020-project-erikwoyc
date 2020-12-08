@@ -418,14 +418,8 @@ Buffalo_20 &lt;- filter(Parcel20, PROPERTY.CLASS %in% SingleFam_propclass)
 
 # Neighborhood Shapefile
 Neighborhood_URL &lt;- &quot;https://data.buffalony.gov/api/geospatial/q9bk-zu3p?method=export&amp;format=GeoJSON&quot;
-Buffalo_Neighborhoods &lt;- st_read(dsn = Neighborhood_URL)</code></pre>
-<pre><code>## Reading layer `OGRGeoJSON&#39; from data source `https://data.buffalony.gov/api/geospatial/q9bk-zu3p?method=export&amp;format=GeoJSON&#39; using driver `GeoJSON&#39;
-## Simple feature collection with 35 features and 11 fields
-## geometry type:  MULTIPOLYGON
-## dimension:      XY
-## bbox:           xmin: -78.91246 ymin: 42.82603 xmax: -78.79504 ymax: 42.96641
-## geographic CRS: WGS 84</code></pre>
-<pre class="r"><code>Buffalo_sp &lt;- as_Spatial(Buffalo_Neighborhoods)</code></pre>
+Buffalo_Neighborhoods &lt;- st_read(dsn = Neighborhood_URL)
+Buffalo_sp &lt;- as_Spatial(Buffalo_Neighborhoods)</code></pre>
 <p>#Snapshot of Assessment Data from 2017 - 2018</p>
 <pre class="r"><code>Parcel17 %&gt;% 
   slice(1:10) %&gt;% 

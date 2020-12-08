@@ -15,6 +15,8 @@ library(sp)
 library(sf)
 library(rgdal)
 library(RColorBrewer)
+library(kableExtra)
+library(leaflet)
 
 # 2017 - 2019 Buffalo Assessment Roll
 Parcel17 <- read.csv(file = "https://raw.githubusercontent.com/geo511-2020/geo511-2020-project-erikwoyc/master/2017-2018_Assessment_Roll.csv")
@@ -30,6 +32,7 @@ Buffalo_20 <- filter(Parcel20, PROPERTY.CLASS %in% SingleFam_propclass)
 Neighborhood_URL <- "https://data.buffalony.gov/api/geospatial/q9bk-zu3p?method=export&format=GeoJSON"
 Buffalo_Neighborhoods <- st_read(dsn = Neighborhood_URL)
 Buffalo_sp <- as_Spatial(Buffalo_Neighborhoods)
+
 
 # 2017 - 2018 Single Family Housing Price Histogram
 Plot_2017 <- ggplot(data = Buffalo_17, mapping = aes(x = TOTAL.VALUE)) + 
@@ -131,6 +134,18 @@ MLR <- lm(log ~ X..OF.BEDS + YEAR.BUILT +
 summary(MLR)
 summary(MLR)$coefficient
 
+pallete <- colorNumeric("viridis", NULL)
 
+Neighborhood_map <- leaflet() %>%
+  setMaxBounds(lng1 = -78.91246, lat1 = 42.82603, lng2 = -78.79504, lat2 = 42.96641) %>%
+  addProviderTiles("CartoDB") %>%
+  addProviderTiles("Stamen.TonerLines",
+                   options = providerTileOptions(opacity = 0.35)) %>%
+  addPolygons(data = Buffalo_sp, fillColor = "transparent") %>%
+  addCircles(data = Buffalo_20, lng = Buffalo_20$LONGITUDE, lat = Buffalo_20$LATITUDE, 
+             color = ~pallete(log(Buffalo_20$TOTAL.VALUE)),
+             radius = .05, opacity = 0.5) %>%
+  addLegend(pal = pallete, values = ~log(TOTAL.VALUE), labFormat = labelFormat(scales::dollar_format(prefix = "$")))
+Neighborhood_map
 
 
