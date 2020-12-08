@@ -12,7 +12,7 @@ The purpose of this project is to look at single family housing in the City of B
 
 [~ 200 words]
 
-Narrative: Clear narrative description of the data sources and methods. Includes data from at least two sources that were integrated / merged in R.
+Sources: Clear narrative description of the data sources and methods. Includes data from at least two sources that were integrated / merged in R.
 
 Code: The code associated with the project is well organized and easy to follow. Demonstrates mastery of R graphics and functions.
 
@@ -62,7 +62,7 @@ knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ```
 
 ## Download and clean all required data
-```{r}
+```{r, eval=T, echo=T, message=F, results='hide', cache = F}
 # 2017 - 2019 Buffalo Assessment Roll
 Parcel17 <- read.csv(file = "https://raw.githubusercontent.com/geo511-2020/geo511-2020-project-erikwoyc/master/2017-2018_Assessment_Roll.csv")
 SingleFam_propclass <- c("210", "215", "240", "241", "250", "270")
@@ -99,7 +99,7 @@ Tables and figures (maps and other graphics) are carefully planned to convey the
 
 Show tables, plots, etc. and describe them.
 
-```{r}
+```{r, eval=T, echo=T, message=F, results='hide', cache = F}
 # 2017 - 2018 Single Family Housing Price Histogram
 Plot_2017 <- ggplot(data = Buffalo_17, mapping = aes(x = TOTAL.VALUE)) + 
   geom_histogram() + xlab("Total Property Value($)") + ylab("Count") +
@@ -111,7 +111,7 @@ plot(Plot_2017)
 ```
 
 
-```{r}
+```{r, eval=T, echo=T, message=F, results='hide', cache = F}
 # 2019 - 2020 Single Family Housing Price Histogram
 Plot_2019 <- ggplot(data = Buffalo_20, mapping = aes(x = TOTAL.VALUE)) + 
   geom_histogram() + xlab("Total Property Value($)") + ylab("Count") +
@@ -123,7 +123,7 @@ plot(Plot_2019)
 ```
 
 
-```{r}
+```{r, eval=T, echo=T, message=F, results='hide', cache = F}
 #Buffalo Bounding Box
 Buffalo_bbox <- Buffalo_sp@bbox
 
@@ -139,7 +139,7 @@ BFMap <- ggmap(basemap) +
 BFMap
 ```
 
-```{r}
+```{r, eval=T, echo=T, message=F, results='hide', cache = F}
 # 2017 - 2018 Assessment Roll Plot
 SingleFam17 <- ggmap(basemap) +
   geom_point(data = Buffalo_17, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 
@@ -152,7 +152,7 @@ SingleFam17 <- ggmap(basemap) +
 SingleFam17
 ```
 
-```{r}
+```{r, eval=T, echo=T, message=F, results='hide', cache = F}
 # 2019 - 2020 Assessment Roll Plot
 SingleFam20 <- ggmap(basemap) + 
   geom_point(data = Buffalo_20, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 

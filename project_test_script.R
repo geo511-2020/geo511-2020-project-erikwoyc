@@ -86,4 +86,41 @@ SingleFam20 <- ggmap(basemap) +
        caption="Open Data Buffalo")
 SingleFam20
 
+# Distribution of Single Family Homes by Year Built
+Year_built <- ggplot(data = Buffalo_20, mapping = aes(x = YEAR.BUILT)) + 
+  geom_histogram() + xlab("Year Built") + ylab("Number of Homes") +
+  scale_fill_manual(values="lightblue") + theme_few() +
+  labs(x="Year Built", y="Number of Homes", title="Distribution of Single Family Homes by Year Built", 
+       caption="Source: Buffalo Open Data") + scale_x_continuous() + scale_y_continuous()
+Year_built
+
+#Year Built Map
+age_map <- ggmap(basemap) + 
+  geom_point(data = Buffalo_20, aes(x = LONGITUDE, y = LATITUDE, color = YEAR.BUILT), 
+             size = .025, alpha = 0.7) +
+  labs(title="Year Built for Single Family Homes",
+       caption="Open Data Buffalo")
+age_map
+
+# Price by Living Area 2017 - 2018
+live_price <- ggplot(data = Buffalo_17, aes(x = TOTAL.LIVING.AREA, y = TOTAL.VALUE)) +
+     labs(x = "Total Living Area (sqft)", y = "Total Value Single Family Home", title = "Price by Square ft of Living Space") +
+  geom_point()
+live_price
+
+# Price by Living Area 2019 - 2020
+live_price20 <- ggplot(data = Buffalo_20, aes(x = TOTAL.LIVING.AREA, y = TOTAL.VALUE)) +
+  labs(x = "Total Living Area (sqft)", y = "Total Value Single Family Home", title = "Price by Square ft of Living Space") +
+  geom_point()
+live_price20
+
+# Price by Bedrooms  2017 - 2018
+bed_price <- ggplot(data = Buffalo_17, aes(x = X..OF.BEDS, y = TOTAL.VALUE)) +
+  labs(x = "Number of Bedrooms", y = "Total Value Single Family Home", title = "Price by Number of Bedrooms") +
+  geom_col()
+bed_price
+
+
+
+
 
