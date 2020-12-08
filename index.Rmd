@@ -141,6 +141,10 @@ SingleFam20
 
 # Percent Change in Single Family Home Price from 2017 - 2020
 ```{r, message=F, warning=F}
+
+#Color Pallette
+pallete <- colorNumeric("viridis", NULL)
+
 Neighborhood_map <- leaflet() %>%
   setMaxBounds(lng1 = -78.91246, lat1 = 42.82603, lng2 = -78.79504, lat2 = 42.96641) %>%
   addProviderTiles("CartoDB") %>%
