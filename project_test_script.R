@@ -65,7 +65,7 @@ BFMap
 
 
 # 2017 - 2018 Assessment Roll Plot
-SingleFam17 <- ggmap(basemap) + geom_polygon(data = Buffalo_sp) +
+SingleFam17 <- ggmap(basemap) + 
   geom_point(data = Buffalo_17, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 
              size = .025, alpha = 0.7) +
   scale_color_gradient("Single Family Home Price", low = "light green", high = "dark green", trans="log",
@@ -120,6 +120,16 @@ bed_price <- ggplot(data = Buffalo_17, aes(x = X..OF.BEDS, y = TOTAL.VALUE)) +
   geom_col()
 bed_price
 
+## Transform Data for Regression
+Buffalo_20$log <- log10(Buffalo_20$TOTAL.VALUE)
+View(Buffalo_20)
+
+## Multiple Linear Regression
+MLR <- lm(log ~ X..OF.BEDS + YEAR.BUILT +
+          TOTAL.LIVING.AREA + X..OF.BATHS + NEIGHBORHOOD,
+          data = Buffalo_20)
+summary(MLR)
+summary(MLR)$coefficient
 
 
 
