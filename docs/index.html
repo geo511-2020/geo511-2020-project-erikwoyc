@@ -380,7 +380,7 @@ div.tocify {
 <div id="materials-and-methods" class="section level1">
 <h1>Materials and methods</h1>
 <p>[~ 200 words]</p>
-<p>Narrative: Clear narrative description of the data sources and methods. Includes data from at least two sources that were integrated / merged in R.</p>
+<p>Sources: Clear narrative description of the data sources and methods. Includes data from at least two sources that were integrated / merged in R.</p>
 <p>Code: The code associated with the project is well organized and easy to follow. Demonstrates mastery of R graphics and functions.</p>
 <p>Data: The underlying data are publicly accessible via the web and downloaded/accessed within the Rmd script. If you want to use your own data, you must make it available on a website (e.g. Figshare) so that others are able to re-run your code.</p>
 <p>You can do bullets like this:</p>
@@ -432,14 +432,8 @@ Buffalo_20 &lt;- filter(Parcel20, PROPERTY.CLASS %in% SingleFam_propclass)
 
 # Neighborhood Shapefile
 Neighborhood_URL &lt;- &quot;https://data.buffalony.gov/api/geospatial/q9bk-zu3p?method=export&amp;format=GeoJSON&quot;
-Buffalo_Neighborhoods &lt;- st_read(dsn = Neighborhood_URL)</code></pre>
-<pre><code>## Reading layer `OGRGeoJSON&#39; from data source `https://data.buffalony.gov/api/geospatial/q9bk-zu3p?method=export&amp;format=GeoJSON&#39; using driver `GeoJSON&#39;
-## Simple feature collection with 35 features and 11 fields
-## geometry type:  MULTIPOLYGON
-## dimension:      XY
-## bbox:           xmin: -78.91246 ymin: 42.82603 xmax: -78.79504 ymax: 42.96641
-## geographic CRS: WGS 84</code></pre>
-<pre class="r"><code>Buffalo_sp &lt;- as_Spatial(Buffalo_Neighborhoods)</code></pre>
+Buffalo_Neighborhoods &lt;- st_read(dsn = Neighborhood_URL)
+Buffalo_sp &lt;- as_Spatial(Buffalo_Neighborhoods)</code></pre>
 <pre class="r"><code>#Snapshot of Assessment Data from 2017 - 2018
 Parcel17 %&gt;% 
   slice(1:10) %&gt;% 
@@ -1960,7 +1954,6 @@ Plot_2017 &lt;- ggplot(data = Buffalo_17, mapping = aes(x = TOTAL.VALUE)) +
        subtitle=&quot;Single Family Property Prices (2017 - 2018)&quot;, 
        caption=&quot;Source: Buffalo Open Data&quot;) + scale_x_continuous() + scale_y_continuous()
 plot(Plot_2017)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code># 2019 - 2020 Single Family Housing Price Histogram
 Plot_2019 &lt;- ggplot(data = Buffalo_20, mapping = aes(x = TOTAL.VALUE)) + 
@@ -1970,11 +1963,7 @@ Plot_2019 &lt;- ggplot(data = Buffalo_20, mapping = aes(x = TOTAL.VALUE)) +
        subtitle=&quot;Single Family Property Prices (2019 - 2020)&quot;, 
        caption=&quot;Source: Buffalo Open Data&quot;) + scale_x_continuous() + scale_y_continuous()
 plot(Plot_2019)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<pre class="r"><code>#Data is transformed using Natural Log for Map Visualization
-Buffalo_17$logprice &lt;- log(Buffalo_17$TOTAL.VALUE)
-Buffalo_20$logprice &lt;- log(Buffalo_20$TOTAL.VALUE)</code></pre>
 <pre class="r"><code>#Buffalo Bounding Box
 Buffalo_bbox &lt;- Buffalo_sp@bbox
 
@@ -1982,51 +1971,37 @@ Buffalo_bbox &lt;- Buffalo_sp@bbox
 basemap &lt;- get_stamenmap(
   bbox = Buffalo_bbox,
   zoom = 13,
-  maptype = &quot;toner-lite&quot;)</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2300/3011.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2301/3011.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2302/3011.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2300/3012.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2301/3012.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2302/3012.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2300/3013.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2301/3013.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2302/3013.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2300/3014.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2301/3014.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2302/3014.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2300/3015.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2301/3015.png</code></pre>
-<pre><code>## Source : http://tile.stamen.com/toner-lite/13/2302/3015.png</code></pre>
-<pre class="r"><code># View Map
+  maptype = &quot;toner-lite&quot;)
+
+# View Map
 BFMap &lt;- ggmap(basemap) + 
   labs(title=&quot;Buffalo Basemap&quot;)
 BFMap</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code># 2017 - 2018 Assessment Roll Plot
-SingleFam17 &lt;- ggmap(basemap) + 
-  geom_point(data = Buffalo_17, aes(x = LONGITUDE, y = LATITUDE, color = logprice), 
+SingleFam17 &lt;- ggmap(basemap) +
+  geom_point(data = Buffalo_17, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 
              size = .025, alpha = 0.7) +
-  scale_color_gradient(&quot;Single Family Home Price&quot;, 
-                        low = &quot;light green&quot;, high = &quot;dark green&quot;) +
+  scale_color_gradient(&quot;Single Family Home Price&quot;, low = &quot;light green&quot;, high = &quot;dark green&quot;, trans=&quot;log&quot;,
+                       labels = scales::dollar_format(prefix = &quot;$&quot;)) +
   labs(title=&quot;Distribution of Buffalo Home Prices&quot;,
        subtitle=&quot;Property Prices (2017 - 2018)&quot;,
        caption=&quot;Open Data Buffalo&quot;)
 SingleFam17</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code># 2019 - 2020 Assessment Roll Plot
 SingleFam20 &lt;- ggmap(basemap) + 
-  geom_point(data = Buffalo_20, aes(x = LONGITUDE, y = LATITUDE, color = logprice), 
+  geom_point(data = Buffalo_20, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 
              size = .025, alpha = 0.7) +
-  scale_color_gradient(&quot;Single Family Home Price&quot;, 
-                       low = &quot;light green&quot;, high = &quot;dark green&quot;) +
+  scale_color_gradient(&quot;Single Family Home Price&quot;, low = &quot;light green&quot;, high = &quot;dark green&quot;, trans=&quot;log&quot;,
+                       labels = scales::dollar_format(prefix = &quot;$&quot;)) +
   labs(title=&quot;Distribution of Buffalo Home Prices&quot;,
        subtitle=&quot;Property Prices (2019 - 2020)&quot;,
        caption=&quot;Open Data Buffalo&quot;)
 SingleFam20</code></pre>
 <pre><code>## Warning: Removed 115 rows containing missing values (geom_point).</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" width="672" /> # Conclusions</p>
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="672" /> # Conclusions</p>
 <p>[~200 words]</p>
 <p>Clear summary adequately describing the results and putting them in context. Discussion of further questions and ways to continue investigation.</p>
 </div>
