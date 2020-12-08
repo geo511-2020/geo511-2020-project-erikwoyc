@@ -153,8 +153,7 @@ Neighborhood_map <- leaflet() %>%
   addPolygons(data = Buffalo_sp, fillColor = "transparent") %>%
   addCircles(data = Buffalo_20, lng = Buffalo_20$LONGITUDE, lat = Buffalo_20$LATITUDE, 
              color = ~pallete(log(Buffalo_20$TOTAL.VALUE)),
-             radius = .05, opacity = 0.5) %>%
-  addLegend(pal = pallete, values = ~log(TOTAL.VALUE), labFormat = labelFormat(scales::dollar_format(prefix = "$")))
+             radius = .05, opacity = 0.5) 
 Neighborhood_map
 ```
 
