@@ -109,7 +109,7 @@ age_map
 
 # Price by Living Area 2017 - 2018
 live_price <- ggplot(data = Buffalo_17, aes(x = TOTAL.LIVING.AREA, y = TOTAL.VALUE)) +
-     labs(x = "Total Living Area (sqft)", y = "Total Value Single Family Home", title = "Price by Square ft of Living Space") +
+     labs(x = "Total Living Area (sqft)", y = "Total Value Single Family Home ($)", title = "Price by Square ft of Living Space") +
   geom_point()
 live_price
 
@@ -119,8 +119,8 @@ live_price20 <- ggplot(data = Buffalo_20, aes(x = TOTAL.LIVING.AREA, y = TOTAL.V
   geom_point()
 live_price20
 
-# Price by Bedrooms  2017 - 2018
-bed_price <- ggplot(data = Buffalo_17, aes(x = X..OF.BEDS, y = TOTAL.VALUE)) +
+# Price by Bedrooms  2019 - 2020
+bed_price <- ggplot(data = Buffalo_20, aes(x = X..OF.BEDS, y = TOTAL.VALUE)) +
   labs(x = "Number of Bedrooms", y = "Total Value Single Family Home", title = "Price by Number of Bedrooms") +
   geom_col()
 bed_price

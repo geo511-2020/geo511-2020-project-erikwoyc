@@ -73,7 +73,7 @@ Parcel17 %>%
 
 # Data Exploration
 
-```{r, message=F, warning=F}
+```{r, message=F, warning=F, class.source="fold-hide"}
 # 2017 - 2018 Single Family Housing Price Histogram
 Plot_2017 <- ggplot(data = Buffalo_17, mapping = aes(x = TOTAL.VALUE)) + 
   geom_histogram() + xlab("Total Property Value($)") + ylab("Count") +
@@ -85,7 +85,7 @@ plot(Plot_2017)
 ```
 
 
-```{r, message=F, warning=F}
+```{r, message=F, warning=F, class.source="fold-hide"}
 # 2019 - 2020 Single Family Housing Price Histogram
 Plot_2019 <- ggplot(data = Buffalo_20, mapping = aes(x = TOTAL.VALUE)) + 
   geom_histogram() + xlab("Total Property Value($)") + ylab("Count") +
@@ -98,7 +98,7 @@ plot(Plot_2019)
 
 
 # Buffalo Base Map
-```{r, message=F, warning=F, results='hide'}
+```{r, message=F, warning=F, results='hide', class.source="fold-hide"}
 #Buffalo Bounding Box
 Buffalo_bbox <- Buffalo_sp@bbox
 
@@ -141,7 +141,7 @@ SingleFam20
 ```
 
 # Interactive Map of Single Family Home Prices 2017 - 2020
-```{r, message=F, warning=F}
+```{r, message=F, warning=F, class.source="fold-hide"}
 
 #Color Pallette
 pallete <- colorNumeric("viridis", NULL)
@@ -164,6 +164,33 @@ Neighborhood_map <- leaflet() %>%
   addLegend(position = "bottomleft", pal = pallete, values = Buffalo_20$TOTAL.VALUE,
             title = "Single Family Home Value")
 Neighborhood_map
+```
+
+# Further Data Exploration
+```{r, message=F, warning=F, class.source="fold-hide"}
+# Distribution of Single Family Homes by Year Built
+Year_built <- ggplot(data = Buffalo_20, mapping = aes(x = YEAR.BUILT)) + 
+  geom_histogram() + xlab("Year Built") + ylab("Number of Homes") +
+  scale_fill_manual(values="lightblue") + theme_few() +
+  labs(x="Year Built", y="Number of Homes", title="Distribution of Single Family Homes by Year Built", 
+       caption="Source: Buffalo Open Data") + scale_x_continuous() + scale_y_continuous()
+Year_built
+```
+
+```{r, message=F, warning=F, class.source="fold-hide"}
+# Price by Living Area 2019 - 2020
+live_price20 <- ggplot(data = Buffalo_20, aes(x = TOTAL.LIVING.AREA, y = TOTAL.VALUE)) +
+  labs(x = "Total Living Area (sqft)", y = "Total Value Single Family Home", title = "Price by Square ft of Living Space") +
+  geom_point()
+live_price20
+```
+
+```{r, message=F, warning=F, class.source="fold-hide"}
+# Price by Bedrooms  2019 - 2020
+bed_price <- ggplot(data = Buffalo_20, aes(x = X..OF.BEDS, y = TOTAL.VALUE)) +
+  labs(x = "Number of Bedrooms", y = "Total Value Single Family Home", title = "Price by Number of Bedrooms") +
+  geom_col()
+bed_price
 ```
 
 # Regression Analysis
