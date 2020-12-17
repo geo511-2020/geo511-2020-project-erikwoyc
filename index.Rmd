@@ -20,7 +20,7 @@ Open Data Buffalo, Neighborhood Boundary Shapefile
 
 # Packages
 
-```{r, message=F, warning=F}
+```{r, message=F, warning=F, results='hide'}
 library(tidyverse)
 library(ggplot2)
 library(ggmap)
@@ -98,7 +98,7 @@ plot(Plot_2019)
 
 
 # Buffalo Base Map
-```{r, message=F, warning=F}
+```{r, message=F, warning=F, results='hide'}
 #Buffalo Bounding Box
 Buffalo_bbox <- Buffalo_sp@bbox
 
@@ -140,7 +140,7 @@ SingleFam20 <- ggmap(basemap) +
 SingleFam20
 ```
 
-# Percent Change in Single Family Home Price from 2017 - 2020
+# Interactive Map of Single Family Home Prices 2017 - 2020
 ```{r, message=F, warning=F}
 
 #Color Pallette
@@ -151,10 +151,18 @@ Neighborhood_map <- leaflet() %>%
   addProviderTiles("CartoDB") %>%
   addProviderTiles("Stamen.TonerLines",
                    options = providerTileOptions(opacity = 0.35)) %>%
+  addCircles(data = Buffalo_17, lng = Buffalo_17$LONGITUDE, lat = Buffalo_17$LATITUDE, 
+             color = ~pallete(log(Buffalo_17$TOTAL.VALUE)),
+             radius = .05, opacity = 0.5,
+             group = "2017 - 2018") %>%
   addCircles(data = Buffalo_20, lng = Buffalo_20$LONGITUDE, lat = Buffalo_20$LATITUDE, 
              color = ~pallete(log(Buffalo_20$TOTAL.VALUE)),
-             radius = .05, opacity = 0.5) %>%
-  addPolygons(data = Buffalo_sp, fillColor = "transparent", color = "#444444", weight = 2)
+             radius = .05, opacity = 0.5,
+             group = "2019 - 2020")  %>%
+  addPolygons(data = Buffalo_sp, fillColor = "transparent", color = "#444444", weight = 2) %>%
+  addLayersControl(overlayGroups = c("2017-2018", "2019-2020")) %>%
+  addLegend(position = "bottomleft", pal = pallete, values = Buffalo_20$TOTAL.VALUE,
+            title = "Single Family Home Value")
 Neighborhood_map
 ```
 
@@ -166,7 +174,7 @@ View(Buffalo_20)
 
 ## Multiple Linear Regression
 MLR <- lm(log ~ X..OF.BEDS + YEAR.BUILT +
-          TOTAL.LIVING.AREA + X..OF.BATHS + NEIGHBORHOOD,
+          TOTAL.LIVING.AREA + X..OF.BATHS,
           data = Buffalo_20)
 summary(MLR)
 ```
