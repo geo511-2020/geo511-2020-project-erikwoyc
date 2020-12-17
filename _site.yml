@@ -1,7 +1,7 @@
 output_dir: 'docs'
 output:
   html_document:
-    theme: Flatly  # choose your theme here: https://bootswatch.com/
+    theme: sandstone  # choose your theme here: https://bootswatch.com/
     highlight: textmate
     mathjax: null
     toc: true
