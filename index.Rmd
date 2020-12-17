@@ -63,8 +63,9 @@ Buffalo_sp <- as_Spatial(Buffalo_Neighborhoods)
 ```
 
 #Snapshot of Assessment Data from 2017 - 2018
-```{r, message=F, warning=F}
+```{r message=FALSE, warning=FALSE}
 Parcel17 %>% 
+  select(PROPERTY.CLASS, PROP.CLASS.DESCRIPTION, TOTAL.VALUE, TOTAL.LIVING.AREA, NEIGHBORHOOD, LOCATION) %>%
   slice(1:10) %>% 
   kable(digits=2,align="c") %>% 
   kable_styling(bootstrap_options = 
