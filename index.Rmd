@@ -200,8 +200,8 @@ Buffalo_20$log <- log10(Buffalo_20$TOTAL.VALUE)
 View(Buffalo_20)
 
 ## Multiple Linear Regression
-MLR <- lm(log ~ X..OF.BEDS + YEAR.BUILT +
-          TOTAL.LIVING.AREA + X..OF.BATHS,
+MLR <- lm(log ~ X..OF.BATHS + X..OF.BEDS +
+          + YEAR.BUILT + TOTAL.LIVING.AREA + PROPERTY.CLASS + BASEMENT.TYPE,
           data = Buffalo_20)
 summary(MLR)
 ```
