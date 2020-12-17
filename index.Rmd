@@ -62,7 +62,7 @@ Buffalo_sp <- as_Spatial(Buffalo_Neighborhoods)
 
 ```
 
-#Snapshot of Assessment Data from 2017 - 2018
+## Snapshot of Assessment Data from 2017 - 2018
 ```{r message=FALSE, warning=FALSE}
 Parcel17 %>% 
   select(PROPERTY.CLASS, PROP.CLASS.DESCRIPTION, TOTAL.VALUE, TOTAL.LIVING.AREA, NEIGHBORHOOD, LOCATION) %>%
@@ -98,7 +98,7 @@ plot(Plot_2019)
 ```
 
 
-# Buffalo Base Map
+## Buffalo Base Map
 ```{r, message=F, warning=F, results='hide'}
 #Buffalo Bounding Box
 Buffalo_bbox <- Buffalo_sp@bbox
@@ -115,7 +115,7 @@ BFMap <- ggmap(basemap) +
 BFMap
 ```
 
-# 2017 - 2018 Assessment Roll Plot
+## 2017 - 2018 Assessment Roll Plot
 ```{r, message=F, warning=F}
 SingleFam17 <- ggmap(basemap) +
   geom_point(data = Buffalo_17, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 
@@ -128,7 +128,7 @@ SingleFam17 <- ggmap(basemap) +
 SingleFam17
 ```
 
-# 2019 - 2020 Assessment Roll Plot
+## 2019 - 2020 Assessment Roll Plot
 ```{r, message=F, warning=F}
 SingleFam20 <- ggmap(basemap) + 
   geom_point(data = Buffalo_20, aes(x = LONGITUDE, y = LATITUDE, color = TOTAL.VALUE), 
@@ -141,7 +141,8 @@ SingleFam20 <- ggmap(basemap) +
 SingleFam20
 ```
 
-# Interactive Map of Single Family Home Prices 2017 - 2020
+# Interactive Map
+## Single Family Home Prices 2017 - 2020
 ```{r, message=F, warning=F}
 
 #Color Pallette
