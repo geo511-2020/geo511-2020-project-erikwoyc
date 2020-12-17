@@ -166,12 +166,9 @@ colnames(data.neighborhoods)[1] <- "nhbdname"
 data.neighborhoods[-c(1,34), ]
 data.neigh <- as.data.frame(data.neighborhoods)
 
-neigh <- append(Buffalo_sp, data.neigh)
-
-Neighborhood_map1 <- leaflet() %>%
-  setMaxBounds(lng1 = -78.91246, lat1 = 42.82603, lng2 = -78.79504, lat2 = 42.96641) %>%
-  addProviderTiles("CartoDB") %>%
-  addProviderTiles("Stamen.TonerLines",
-                   options = providerTileOptions(opacity = 0.35)) %>%
-  addPolygons(data = neigh, fillColor = "medianPrice.y", weight = 2)
-Neighborhood_map1
+Median_Price <- ggplot(data = data.neigh, mapping = aes(x = nhbdname, y = medianPrice.y)) + 
+  geom_col() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x="Neighborhood", y = "Price ($)", title="Median Price Single Family Home",
+       subtitle="Median Price by Neighborhood", 
+       caption="Source: Buffalo Open Data") + scale_y_continuous(labels=scales::dollar_format())
+plot(Median_Price)
