@@ -17,6 +17,8 @@ library(rgdal)
 library(RColorBrewer)
 library(kableExtra)
 library(leaflet)
+library(tmaptools)
+
 
 # 2017 - 2019 Buffalo Assessment Roll
 Parcel17 <- read.csv(file = "https://raw.githubusercontent.com/geo511-2020/geo511-2020-project-erikwoyc/master/2017-2018_Assessment_Roll.csv")
@@ -141,10 +143,35 @@ Neighborhood_map <- leaflet() %>%
   addProviderTiles("CartoDB") %>%
   addProviderTiles("Stamen.TonerLines",
                    options = providerTileOptions(opacity = 0.35)) %>%
+  addCircles(data = Buffalo_17, lng = Buffalo_17$LONGITUDE, lat = Buffalo_17$LATITUDE, 
+             color = ~pallete(log(Buffalo_17$TOTAL.VALUE)),
+             radius = .05, opacity = 0.5,
+             group = "2017 - 2018") %>%
   addCircles(data = Buffalo_20, lng = Buffalo_20$LONGITUDE, lat = Buffalo_20$LATITUDE, 
              color = ~pallete(log(Buffalo_20$TOTAL.VALUE)),
-             radius = .05, opacity = 0.5) %>%
-  addPolygons(data = Buffalo_sp, fillColor = "transparent", color = "#444444", weight = 2)
+             radius = .05, opacity = 0.5,
+             group = "2019 - 2020")  %>%
+  addPolygons(data = Buffalo_sp, fillColor = "transparent", color = "#444444", weight = 2) %>%
+  addLayersControl(overlayGroups = c("2017-2018", "2019-2020")) %>%
+  addLegend(position = "bottomleft", pal = pallete, values = Buffalo_20$TOTAL.VALUE,
+            title = "Single Family Home Value")
 Neighborhood_map
 
+data_20 <- ddply(Buffalo_20, c("NEIGHBORHOOD"), summarise,
+                     medianPrice = median(TOTAL.VALUE))
+data_17 <- ddply(Buffalo_17, c("NEIGHBORHOOD"), summarise,
+                 medianPrice = median(TOTAL.VALUE))
+data.neighborhoods <- left_join(data_17, data_20, by = "NEIGHBORHOOD")
+colnames(data.neighborhoods)[1] <- "nhbdname"
+data.neighborhoods[-c(1,34), ]
+data.neigh <- as.data.frame(data.neighborhoods)
 
+neigh <- append(Buffalo_sp, data.neigh)
+
+Neighborhood_map1 <- leaflet() %>%
+  setMaxBounds(lng1 = -78.91246, lat1 = 42.82603, lng2 = -78.79504, lat2 = 42.96641) %>%
+  addProviderTiles("CartoDB") %>%
+  addProviderTiles("Stamen.TonerLines",
+                   options = providerTileOptions(opacity = 0.35)) %>%
+  addPolygons(data = neigh, fillColor = "medianPrice.y", weight = 2)
+Neighborhood_map1
