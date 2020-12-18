@@ -11,17 +11,17 @@ across neighborhoods and investigate possible factors that influence housing pri
 
 # Materials and methods
 
-Data Sources: 
-* Open Data Buffalo, Tax Assessment Data 2017 - 2020
-* Open Data Buffalo, Neighborhood Boundary Shapefile
+* Data Sources
+    * Open Data Buffalo, Tax Assessment Data 2017 - 2020
+    * Open Data Buffalo, Neighborhood Boundary Shapefile
 
-Methods:
-* Data Cleaning & Processing
-* Exploration of the tax assessment data
-* Plot parcel data for Single Family Homes
-* Map Buffalo Neighborhoods
-* Compare median price of single family homes by neighborhood
-* Run regression analysis to examine possible indicators of price
+* Methods
+    * Data Cleaning & Processing
+    * Exploration of the tax assessment data
+    * Plot parcel data for Single Family Homes
+    * Map Buffalo Neighborhoods
+    * Compare median price of single family homes by neighborhood
+    * Run regression analysis to examine possible indicators of price
 
 # Packages
 
