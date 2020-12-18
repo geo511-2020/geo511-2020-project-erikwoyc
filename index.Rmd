@@ -8,15 +8,21 @@ subtitle: "2017 - 2020"
 
 Within the context of recent economic growth within the City of Buffalo (before Covid-19), 
 this project will examine changes in Single Family Housing Prices from 2017 - 2020. Buffalo has experienced rising real estate values in response to economic development projects, university expansions and workforce development programs. This project will compare changes in housing prices
-across neighborhoods and investigate possible factors that influence housing prices such as number of bathrooms, bedrooms and total living area. 
+across neighborhoods and investigate possible factors that influence housing prices such as number of bathrooms, bedrooms and total living area.  
 
 # Materials and methods
 
+Data Sources: 
+* Open Data Buffalo, Tax Assessment Data 2017 - 2020
+* Open Data Buffalo, Neighborhood Boundary Shapefile
 
-Sources: 
-Open Data Buffalo, Tax Assessment Data 2017 - 2020
-Open Data Buffalo, Neighborhood Boundary Shapefile
-
+Methods:
+* Data Cleaning & Processing
+* Exploration of the tax assessment data
+* Plot parcel data for Single Family Homes
+* Map Buffalo Neighborhoods
+* Compare median price of single family homes by neighborhood
+* Run regression analysis to examine possible indicators of price
 
 # Packages
 
@@ -44,6 +50,7 @@ knitr::opts_chunk$set(cache=TRUE)
 ```
 
 ## Data Download & Cleaning
+Using the tax assessors manual, all property classes that represent single family residential were extracted from the Buffalo Assessment Roll. 
 ```{r, message=F, warning=F, results='hide'}
 # 2017 - 2019 Buffalo Assessment Roll
 Parcel17 <- read.csv(file = "https://raw.githubusercontent.com/geo511-2020/geo511-2020-project-erikwoyc/master/2017-2018_Assessment_Roll.csv")
@@ -63,6 +70,7 @@ Buffalo_sp <- as_Spatial(Buffalo_Neighborhoods)
 ```
 
 ## Snapshot of Assessment Data from 2017 - 2018
+The assessment data contains information such as property class, total value and structural data such as number of bedrooms and total living area.
 ```{r message=FALSE, warning=FALSE}
 Parcel17 %>% 
   select(PROPERTY.CLASS, PROP.CLASS.DESCRIPTION, TOTAL.VALUE, TOTAL.LIVING.AREA, NEIGHBORHOOD, LOCATION) %>%
@@ -73,7 +81,7 @@ Parcel17 %>%
 ```
 
 # Data Exploration
-
+Plotting single family property prices illustrates a high degree of variability in prices across Buffalo
 ```{r, message=F, warning=F}
 # 2017 - 2018 Single Family Housing Price Histogram
 Plot_2017 <- ggplot(data = Buffalo_17, mapping = aes(x = TOTAL.VALUE)) + 
@@ -139,6 +147,7 @@ SingleFam20
 
 # Interactive Map
 ## Single Family Home Prices 2017 - 2020
+Based on the map, the highest single family property values are in the Allentown, Central, Elmwood & Parkside neighborhoods. There is a sharp drop in property value in the surrounding neighborhoods. 
 ```{r, message=F, warning=F}
 
 #Color Pallette
@@ -229,7 +238,16 @@ summary(MLR)
 
 # Conclusions
 
+Based on the maps and the multiple linear regression it would seem that the geographic location of a single family home is a stronger predictor of price than any structural details. With an R-squared of 0.51, I conclude that the variables chosen are not strong indicators of price but with the large contrast in price across neighborhoods, I would suggest that further analysis would support the conclusion that geographic location has a stronger influence on price. 
 
 # References
 
-All sources are cited in a consistent manner
+* Kassambara, et al. “Multiple Linear Regression in R.” STHDA, 10 Mar. 2018, www.sthda.com/english/articles/40-regression-analysis/168-multiple-linear-regression-in-r/. 
+
+* “Portfolio.” Urban Spatial, urbanspatialanalysis.com/portfolio/. 
+
+* Open Data Buffalo. "Assessment Roll 2017 - 2018." https://data.buffalony.gov/Government/2017-2018-Assessment-Roll/bxmp-ux8w
+
+* Open Data Buffalo. "Assessment Roll 2019 - 2020." https://data.buffalony.gov/Government/2019-2020-Assessment-Roll/kckn-jafw
+
+* Open Data Buffalo. "Neighborhoods" https://data.buffalony.gov/Economic-Neighborhood-Development/Neighborhoods/q9bk-zu3p
