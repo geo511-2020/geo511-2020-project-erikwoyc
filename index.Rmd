@@ -109,10 +109,6 @@ basemap <- get_stamenmap(
   zoom = 13,
   maptype = "toner-lite")
 
-# View Map
-BFMap <- ggmap(basemap) + 
-  labs(title="Buffalo Basemap")
-BFMap
 ```
 
 ## 2017 - 2018 Assessment Roll Plot
@@ -168,9 +164,10 @@ Neighborhood_map <- leaflet() %>%
 Neighborhood_map
 ```
 
-# Further Data Exploration
+# Further Data Exploration {.tabset .unnumbered}
+
+## Distribution of Single Family Homes by Year Built {.unnumbered}
 ```{r, message=F, warning=F}
-# Distribution of Single Family Homes by Year Built
 Year_built <- ggplot(data = Buffalo_20, mapping = aes(x = YEAR.BUILT)) + 
   geom_histogram() + xlab("Year Built") + ylab("Number of Homes") +
   scale_fill_manual(values="lightblue") + theme_few() +
@@ -179,6 +176,7 @@ Year_built <- ggplot(data = Buffalo_20, mapping = aes(x = YEAR.BUILT)) +
 Year_built
 ```
 
+## Price by Living Area 2019 - 2020 {.unnumbered}
 ```{r, message=F, warning=F}
 # Price by Living Area 2019 - 2020
 live_price20 <- ggplot(data = Buffalo_20, aes(x = TOTAL.LIVING.AREA, y = TOTAL.VALUE)) +
@@ -187,12 +185,32 @@ live_price20 <- ggplot(data = Buffalo_20, aes(x = TOTAL.LIVING.AREA, y = TOTAL.V
 live_price20
 ```
 
+## Price by Bedrooms  2019 - 2020 {.unnumbered}
 ```{r, message=F, warning=F}
 # Price by Bedrooms  2019 - 2020
 bed_price <- ggplot(data = Buffalo_20, aes(x = X..OF.BEDS, y = TOTAL.VALUE)) +
   labs(x = "Number of Bedrooms", y = "Total Value Single Family Home", title = "Price by Number of Bedrooms") +
   geom_col()
 bed_price
+```
+
+## Median Price by Neighborhood {.unnumbered}
+```{r, message=F, warning=F}
+data_20 <- ddply(Buffalo_20, c("NEIGHBORHOOD"), summarise,
+                     medianPrice = median(TOTAL.VALUE))
+data_17 <- ddply(Buffalo_17, c("NEIGHBORHOOD"), summarise,
+                 medianPrice = median(TOTAL.VALUE))
+data.neighborhoods <- left_join(data_17, data_20, by = "NEIGHBORHOOD")
+colnames(data.neighborhoods)[1] <- "nhbdname"
+data.neigh <- data.neighborhoods[-c(1,34), ]
+View(data.neigh)
+
+Median_Price <- ggplot(data = data.neigh, mapping = aes(x = nhbdname, y = medianPrice.y)) + 
+  geom_col() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x="Neighborhood", y = "Price ($)", title="Median Price Single Family Home",
+       subtitle="Median Price by Neighborhood", 
+       caption="Source: Buffalo Open Data") + scale_y_continuous(labels=scales::dollar_format())
+plot(Median_Price)
 ```
 
 # Regression Analysis

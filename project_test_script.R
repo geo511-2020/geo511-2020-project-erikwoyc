@@ -157,14 +157,15 @@ Neighborhood_map <- leaflet() %>%
             title = "Single Family Home Value")
 Neighborhood_map
 
+# Median Price by Neighborhood
 data_20 <- ddply(Buffalo_20, c("NEIGHBORHOOD"), summarise,
                      medianPrice = median(TOTAL.VALUE))
 data_17 <- ddply(Buffalo_17, c("NEIGHBORHOOD"), summarise,
                  medianPrice = median(TOTAL.VALUE))
 data.neighborhoods <- left_join(data_17, data_20, by = "NEIGHBORHOOD")
 colnames(data.neighborhoods)[1] <- "nhbdname"
-data.neighborhoods[-c(1,34), ]
-data.neigh <- as.data.frame(data.neighborhoods)
+data.neigh <- data.neighborhoods[-c(1,34), ]
+View(data.neigh)
 
 Median_Price <- ggplot(data = data.neigh, mapping = aes(x = nhbdname, y = medianPrice.y)) + 
   geom_col() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
